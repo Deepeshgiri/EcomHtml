@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>E-commerce Home Page</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="#">E-Shop</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Categories</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Cart</a>
+          </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+          <input
+            class="form-control mr-sm-2"
+            type="search"
+            placeholder="Search"
+            aria-label="Search"
+          />
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+            Search
+          </button>
+        </form>
+      </div>
+    </nav>
+
+    <div class="container mt-4">
+      <div class="row">
+        <div class="col-md-3">
+          <h4>Filter</h4>
+          <div class="list-group">
+            <a href="#" class="list-group-item list-group-item-action"
+              >Category 1</a
+            >
+            <a href="#" class="list-group-item list-group-item-action"
+              >Category 2</a
+            >
+            <a href="#" class="list-group-item list-group-item-action"
+              >Category 3</a
+            >
+          </div>
+          <h5 class="mt-3">Price Range</h5>
+          <input
+            type="range"
+            class="custom-range"
+            min="0"
+            max="1000"
+            id="priceRange"
+          />
+          <p>$<span id="priceValue">500</span></p>
+        </div>
+        <div class="col-md-9">
+          <div class="row">
+            <div class="col-md-4 mb-4">
+              <div class="card">
+                <img
+                  src="https://via.placeholder.com/150"
+                  class="card-img-top"
+                  alt="Product 1"
+                />
+                <div class="card-body">
+                  <h5 class="card-title">Product 1</h5>
+                  <p class="card-text">$19.99</p>
+                  <a
+                    href="#"
+                    class="btn btn-primary"
+                    data-toggle="modal"
+                    data-target="#productModal"
+                    >View Details</a
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 mb-4">
+              <div class="card">
+                <img
+                  src="https://via.placeholder.com/150"
+                  class="card-img-top"
+                  alt="Product 2"
+                />
+                <div class="card-body">
+                  <h5 class="card-title">Product 2</h5>
+                  <p class="card-text">$24.99</p>
+                  <a
+                    href="#"
+                    class="btn btn-primary"
+                    data-toggle="modal"
+                    data-target="#productModal"
+                    >View Details</a
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 mb-4">
+              <div class="card">
+                <img
+                  src="https://via.placeholder.com/150"
+                  class="card-img-top"
+                  alt="Product 3"
+                />
+                <div class="card-body">
+                  <h5 class="card-title">Product 3</h5>
+                  <p class="card-text">$29.99</p>
+                  <a
+                    href="#"
+                    class="btn btn-primary"
+                    data-toggle="modal"
+                    data-target="#productModal"
+                    >View Details</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product Details Modal -->
+    <div
+      class="modal fade"
+      id="productModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="productModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="productModalLabel">Product Details</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <img
+              src="https://via.placeholder.com/300"
+              class="img-fluid mb-3"
+              alt="Product"
+            />
+            <h4>Product Name</h4>
+            <p>Price: $24.99</p>
+            <p>
+              Description: Lorem ipsum dolor sit amet, consectetur adipiscing
+              elit. Nulla quam velit, vulputate eu pharetra nec, mattis ac
+              neque.
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="button" class="btn btn-primary">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+      document
+        .getElementById("priceRange")
+        .addEventListener("input", function () {
+          document.getElementById("priceValue").textContent = this.value;
+        });
+    </script>
+    <script>
+      fetch("https://dummyjson.com/products/categories")
+        .then((res) => res.json())
+        .then(console.log);
+    </script>
+  </body>
+</html>
