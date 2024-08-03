@@ -29,8 +29,13 @@
           <li class="nav-item active">
             <a class="nav-link" href="#">Home</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Categories</a>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="categoriesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Categories
+            </a>
+            <div class="dropdown-menu" aria-labelledby="categoriesDropdown" id="categoriesList">
+              <!-- Categories will be dynamically populated here -->
+            </div>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Cart</a>
@@ -54,89 +59,39 @@
       <div class="row">
         <div class="col-md-3">
           <h4>Filter</h4>
-          <div class="list-group">
-            <a href="#" class="list-group-item list-group-item-action"
-              >Category 1</a
-            >
-            <a href="#" class="list-group-item list-group-item-action"
-              >Category 2</a
-            >
-            <a href="#" class="list-group-item list-group-item-action"
-              >Category 3</a
-            >
+          <div class="list-group" id="categoryList">
+            <!-- Categories will be dynamically populated here -->
           </div>
+          <button id="expandCategories" class="btn btn-link mt-2">Show All Categories</button>
           <h5 class="mt-3">Price Range</h5>
-          <input
-            type="range"
-            class="custom-range"
-            min="0"
-            max="1000"
-            id="priceRange"
-          />
-          <p>$<span id="priceValue">500</span></p>
+          <div class="d-flex justify-content-between">
+            <span>$<span id="minPrice">0</span></span>
+            <span>$<span id="maxPrice">2000</span></span>
+          </div>
+          <div class="d-flex justify-content-between">
+            <input
+              type="number"
+              class="form-control mr-2"
+              min="0"
+              max="2000"
+              step="1"
+              id="minPriceInput"
+              value="0"
+            />
+            <input
+              type="number"
+              class="form-control ml-2"
+              min="0"
+              max="2000"
+              step="1"
+              id="maxPriceInput"
+              value="2000"
+            />
+          </div>
         </div>
         <div class="col-md-9">
-          <div class="row">
-            <div class="col-md-4 mb-4">
-              <div class="card">
-                <img
-                  src="https://via.placeholder.com/150"
-                  class="card-img-top"
-                  alt="Product 1"
-                />
-                <div class="card-body">
-                  <h5 class="card-title">Product 1</h5>
-                  <p class="card-text">$19.99</p>
-                  <a
-                    href="#"
-                    class="btn btn-primary"
-                    data-toggle="modal"
-                    data-target="#productModal"
-                    >View Details</a
-                  >
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4 mb-4">
-              <div class="card">
-                <img
-                  src="https://via.placeholder.com/150"
-                  class="card-img-top"
-                  alt="Product 2"
-                />
-                <div class="card-body">
-                  <h5 class="card-title">Product 2</h5>
-                  <p class="card-text">$24.99</p>
-                  <a
-                    href="#"
-                    class="btn btn-primary"
-                    data-toggle="modal"
-                    data-target="#productModal"
-                    >View Details</a
-                  >
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4 mb-4">
-              <div class="card">
-                <img
-                  src="https://via.placeholder.com/150"
-                  class="card-img-top"
-                  alt="Product 3"
-                />
-                <div class="card-body">
-                  <h5 class="card-title">Product 3</h5>
-                  <p class="card-text">$29.99</p>
-                  <a
-                    href="#"
-                    class="btn btn-primary"
-                    data-toggle="modal"
-                    data-target="#productModal"
-                    >View Details</a
-                  >
-                </div>
-              </div>
-            </div>
+          <div class="row" id="productList">
+            <!-- Products will be dynamically populated here -->
           </div>
         </div>
       </div>
@@ -196,16 +151,100 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-      document
-        .getElementById("priceRange")
-        .addEventListener("input", function () {
-          document.getElementById("priceValue").textContent = this.value;
+      let allProducts = [];
+      const minPriceInput = document.getElementById("minPriceInput");
+      const maxPriceInput = document.getElementById("maxPriceInput");
+      const minPrice = document.getElementById("minPrice");
+      const maxPrice = document.getElementById("maxPrice");
+      const productList = document.getElementById('productList');
+      const expandCategories = document.getElementById('expandCategories');
+      let showAllCategories = false;
+
+      minPriceInput.addEventListener("input", function () {
+        minPrice.textContent = this.value;
+        filterProducts();
+      });
+
+      maxPriceInput.addEventListener("input", function () {
+        maxPrice.textContent = this.value;
+        filterProducts();
+      });
+
+      expandCategories.addEventListener("click", function() {
+        showAllCategories = !showAllCategories;
+        this.textContent = showAllCategories ? "Show Less Categories" : "Show All Categories";
+        displayCategories();
+      });
+
+      function filterProducts() {
+        const minPriceValue = parseInt(minPriceInput.value);
+        const maxPriceValue = parseInt(maxPriceInput.value);
+        const filteredProducts = allProducts.filter(product => 
+          product.price >= minPriceValue && product.price <= maxPriceValue
+        );
+        displayProducts(filteredProducts);
+      }
+
+      function displayProducts(products) {
+        productList.innerHTML = '';
+        products.forEach(product => {
+          const item = document.createElement('div');
+          item.classList.add('col-md-3', 'mb-4');
+          item.innerHTML = `
+            <div class="card">
+              <img src="${product.thumbnail}" class="card-img-top" alt="${product.title}">
+              <div class="card-body">
+                <h5 class="card-title">${product.title}</h5>
+                <p class="card-text">${product.price}</p>
+                <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#productModal">View Details</a>
+              </div>
+            </div>
+          `;
+          productList.appendChild(item);
         });
-    </script>
-    <script>
-      fetch("https://dummyjson.com/products/categories")
-        .then((res) => res.json())
-        .then(console.log);
+      }
+
+      function displayCategories() {
+        const categoriesList = document.getElementById('categoriesList');
+        const categoryList = document.getElementById('categoryList');
+        categoriesList.innerHTML = '';
+        categoryList.innerHTML = '';
+        
+        const categoriesToShow = showAllCategories ? categories : categories.slice(0, 5);
+        
+        categoriesToShow.forEach(category => {
+          const dropdownItem = document.createElement('a');
+          dropdownItem.classList.add('dropdown-item');
+          dropdownItem.href = '#';
+          dropdownItem.textContent = category;
+          categoriesList.appendChild(dropdownItem);
+
+          const listItem = document.createElement('a');
+          listItem.classList.add('list-group-item', 'list-group-item-action');
+          listItem.href = '#';
+          listItem.textContent = category.slug;
+          categoryList.appendChild(listItem);
+        });
+      }
+
+      // Fetch categories
+      let categories = [];
+      fetch('https://dummyjson.com/products/categories')
+        .then(response => response.json())
+        .then(data => {
+          categories = data;
+          displayCategories();
+        })
+        .catch(error => console.error('Error fetching categories:', error));
+
+      // Fetch product data from API
+      fetch('https://dummyjson.com/products')
+        .then(response => response.json())
+        .then(data => {
+          allProducts = data.products;
+          displayProducts(allProducts);
+        })
+        .catch(error => console.error('Error fetching products:', error));
     </script>
   </body>
 </html>
